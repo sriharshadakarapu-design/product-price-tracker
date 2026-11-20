@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: product-price-tracker
+  cancel-in-progress: false
+
 jobs:
   price-check:
     runs-on: ubuntu-latest
@@ -17,7 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ github.token }}
+          persist-credentials: true
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -42,12 +46,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add -A -- products.json price_history.csv
+          git add products.json price_history.csv
 
           if ! git diff --cached --quiet; then
             git commit -m "Update product price history"
             git push
           else
-            echo "No changes to save."
+            echo "No changes to save"
           fi
-
