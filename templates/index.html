@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Price Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 25px;
+        }
+        .container {
+            max-width: 850px;
+            margin: auto;
+        }
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🛒 Product Price Tracker</h1>
+
+    <div class="card">
+        <h2>Tracker Settings</h2>
+        <p>Target price: ${{ price_limit }}</p>
+        <p>Check interval: {{ check_interval }} seconds</p>
+    </div>
+
+    <div class="card">
+        <h2>Add New Product</h2>
+
+        <form action="/add" method="POST">
+            <input name="name" placeholder="Product name" required>
+
+            <input name="url" type="url"
+                   placeholder="Product URL" required>
+
+            <select name="retailer" required>
+                <option value="">Choose retailer</option>
+                {% for retailer in retailers %}
+                <option value="{{ retailer }}">{{ retailer }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>My Tracked Products</h2>
+
+        {% for product in products %}
+        <div class="card">
+            <h3>{{ product.name }}</h3>
+            <p>Retailer: {{ product.retailer }}</p>
+            <p>Price: {{ product.price or 'Not checked yet' }}</p>
+            <a href="{{ product.url }}">View product</a>
+        </div>
+        {% else %}
+        <p>No products added yet.</p>
+        {% endfor %}
+
+        <a href="/check">
+            <button>Check Prices</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>
