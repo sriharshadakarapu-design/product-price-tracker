@@ -1,12 +1,13 @@
+
 [
-    {
-        "name": "Example Laptop",
-        "retailer": "Best Buy",
-        "url": "https://www.bestbuy.com/",
-        "selector": ".priceView-customer-price span",
-        "target_price": 150,
-        "current_price": null,
-        "last_checked": null,
-        "last_alert_price": null
-    }
+  {
+    "name": "Apple AirPods Pro 3",
+    "retailer": "Walmart",
+    "url": "https://www.walmart.com/ip/AirPods-nbsp-Pro-nbsp-3/17835006350",
+    "item_id": "17835006350",
+    "target_price": 140,
+    "current_price": 179.00,
+    "last_checked": null,
+    "last_alert_price": null
+  }
 ]
