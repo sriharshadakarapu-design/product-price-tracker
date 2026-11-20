@@ -3,6 +3,7 @@ name: Product Price Tracker
 
 on:
   workflow_dispatch:
+
   schedule:
     - cron: "*/30 * * * *"
 
