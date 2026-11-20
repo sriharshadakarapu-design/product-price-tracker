@@ -6,19 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial;
             background: #f1f5f9;
-            margin: 0;
             padding: 25px;
         }
-        .container {
-            max-width: 850px;
-            margin: auto;
-        }
+        .container { max-width: 850px; margin: auto; }
         .card {
             background: white;
-            padding: 22px;
-            margin-bottom: 20px;
+            padding: 20px;
+            margin: 15px 0;
             border-radius: 12px;
         }
         input, select, button {
@@ -32,7 +28,6 @@
             color: white;
             border: none;
             border-radius: 6px;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -41,14 +36,13 @@
     <h1>🛒 Product Price Tracker</h1>
 
     <div class="card">
-        <h2>Tracker Settings</h2>
-        <p>Target price: ${{ price_limit }}</p>
+        <h2>Settings</h2>
+        <p>Default price limit: ${{ price_limit }}</p>
         <p>Check interval: {{ check_interval }} seconds</p>
     </div>
 
     <div class="card">
-        <h2>Add New Product</h2>
-
+        <h2>Add Product</h2>
         <form action="/add" method="POST">
             <input name="name" placeholder="Product name" required>
 
@@ -62,27 +56,35 @@
                 {% endfor %}
             </select>
 
+            <input name="selector"
+                   placeholder="Price CSS selector" required>
+
             <button type="submit">Add Product</button>
         </form>
     </div>
 
     <div class="card">
-        <h2>My Tracked Products</h2>
+        <h2>Tracked Products</h2>
 
         {% for product in products %}
         <div class="card">
             <h3>{{ product.name }}</h3>
             <p>Retailer: {{ product.retailer }}</p>
-            <p>Price: {{ product.price or 'Not checked yet' }}</p>
-            <a href="{{ product.url }}">View product</a>
+            <p>Current price:
+                {% if product.current_price is not none %}
+                    ${{ "%.2f"|format(product.current_price) }}
+                {% else %}
+                    Not checked
+                {% endif %}
+            </p>
+            <p>Target: ${{ product.target_price }}</p>
+            <p>Last checked: {{ product.last_checked or "Not checked" }}</p>
+            <a href="{{ product.url }}" target="_blank"
+               rel="noopener noreferrer">View Product</a>
         </div>
         {% else %}
         <p>No products added yet.</p>
         {% endfor %}
-
-        <a href="/check">
-            <button>Check Prices</button>
-        </a>
     </div>
 </div>
 </body>
